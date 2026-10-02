@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfgraph:Canvas xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition"
+    name="iotpatterns">
+  <figures name="iotpatterns">
+    <!-- IoTSystem: main diagram container -->
+    <descriptors name="IoTSystemFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="IoTSystemFigure" fill="true" outline="true">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="0" green="0" blue="128"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="220" green="235" blue="255"/>
+        <children xsi:type="gmfgraph:Label" name="IoTSystemNameLabel" text="IoTSystem"/>
+      </actualFigure>
+    </descriptors>
+    <!-- Device: rectangle with icon -->
+    <descriptors name="DeviceFigure">
+      <actualFigure xsi:type="gmfgraph:RoundedRectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="DeviceFigure" fill="true" outline="true" cornerWidth="10" cornerHeight="10">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="0" green="80" blue="160"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="200" green="220" blue="255"/>
+        <children xsi:type="gmfgraph:Label" name="DeviceNameLabel" text="Device"/>
+        <children xsi:type="gmfgraph:Label" name="DeviceIdLabel" text="id"/>
+        <children xsi:type="gmfgraph:Label" name="DeviceStateLabel" text="state"/>
+      </actualFigure>
+    </descriptors>
+    <!-- Server -->
+    <descriptors name="ServerFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="ServerFigure" fill="true" outline="true">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="0" green="100" blue="0"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="200" green="255" blue="200"/>
+        <children xsi:type="gmfgraph:Label" name="ServerNameLabel" text="Server"/>
+      </actualFigure>
+    </descriptors>
+    <!-- Gateway -->
+    <descriptors name="GatewayFigure">
+      <actualFigure xsi:type="gmfgraph:RoundedRectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="GatewayFigure" fill="true" cornerWidth="6" cornerHeight="6">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="180" green="100" blue="0"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="255" green="230" blue="180"/>
+        <children xsi:type="gmfgraph:Label" name="GatewayNameLabel" text="Gateway"/>
+        <children xsi:type="gmfgraph:Label" name="GatewayProtocolLabel" text="ZigBee->IP"/>
+      </actualFigure>
+    </descriptors>
+    <!-- SecurityPolicy -->
+    <descriptors name="SecurityPolicyFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="SecurityPolicyFigure" fill="true">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="128" green="0" blue="0"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="255" green="200" blue="200"/>
+        <children xsi:type="gmfgraph:Label" name="SecurityPolicyLabel" text="SecurityPolicy"/>
+      </actualFigure>
+    </descriptors>
+    <!-- VirtualDevice (Device Shadow) -->
+    <descriptors name="VirtualDeviceFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="VirtualDeviceFigure" fill="true" outline="true">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="80" green="80" blue="160"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="220" green="220" blue="255"/>
+        <children xsi:type="gmfgraph:Label" name="VirtualDeviceLabel" text="DeviceShadow"/>
+      </actualFigure>
+    </descriptors>
+    <!-- BootstrapConfig -->
+    <descriptors name="BootstrapConfigFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="BootstrapConfigFigure" fill="true">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="0" green="128" blue="128"/>
+        <backgroundColor xsi:type="gmfgraph:RGBColor" red="200" green="245" blue="245"/>
+        <children xsi:type="gmfgraph:Label" name="BootstrapConfigLabel" text="BootstrapConfig"/>
+      </actualFigure>
+    </descriptors>
+    <!-- CommunicationLink -->
+    <descriptors name="CommunicationLinkFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          name="CommunicationLinkFigure">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="0" green="0" blue="180"/>
+        <targetDecoration xsi:type="gmfgraph:PolylineDecoration" name="ArrowEnd"/>
+      </actualFigure>
+    </descriptors>
+  </figures>
+  <!-- DIAGRAM LABELS -->
+  <labels name="DeviceName"    figure="DeviceNameLabel"    elementIcon="true"/>
+  <labels name="DeviceId"      figure="DeviceIdLabel"/>
+  <labels name="DeviceState"   figure="DeviceStateLabel"/>
+  <labels name="ServerName"    figure="ServerNameLabel"    elementIcon="true"/>
+  <labels name="GatewayName"   figure="GatewayNameLabel"   elementIcon="true"/>
+  <labels name="GatewayProto"  figure="GatewayProtocolLabel"/>
+  <!-- DIAGRAM NODES -->
+  <nodes name="IoTSystemNode"     figure="IoTSystemFigure"/>
+  <nodes name="DeviceNode"        figure="DeviceFigure"/>
+  <nodes name="ServerNode"        figure="ServerFigure"/>
+  <nodes name="GatewayNode"       figure="GatewayFigure"/>
+  <nodes name="SecurityPolicyNode" figure="SecurityPolicyFigure"/>
+  <nodes name="VirtualDeviceNode" figure="VirtualDeviceFigure"/>
+  <nodes name="BootstrapNode"     figure="BootstrapConfigFigure"/>
+  <!-- DIAGRAM CONNECTIONS -->
+  <connections name="CommunicationLinkConn" figure="CommunicationLinkFigure"/>
+</gmfgraph:Canvas>

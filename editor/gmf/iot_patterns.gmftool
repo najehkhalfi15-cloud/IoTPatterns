@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <tools xsi:type="gmftool:ToolGroup"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      title="Communication Pattern Tools" collapsible="true">
+    <tools xsi:type="gmftool:CreationTool" title="IoT System"
+        description="Creates a new IoT System container"/>
+    <tools xsi:type="gmftool:CreationTool" title="Device"
+        description="Creates a generic IoT Device"/>
+    <tools xsi:type="gmftool:CreationTool" title="Sensor"
+        description="Creates a Sensor device (ZigBee/MQTT)"/>
+    <tools xsi:type="gmftool:CreationTool" title="Actuator"
+        description="Creates an Actuator device"/>
+    <tools xsi:type="gmftool:CreationTool" title="Server"
+        description="Creates the Back-End Server"/>
+    <tools xsi:type="gmftool:CreationTool" title="Gateway"
+        description="Creates a protocol translation Gateway"/>
+    <tools xsi:type="gmftool:CreationTool" title="Device Shadow (VirtualDevice)"
+        description="Creates a Device Shadow (VirtualDevice) for offline state"/>
+    <tools xsi:type="gmftool:CreationTool" title="Wake-Up Trigger"
+        description="Creates a Wake-Up Trigger for sleeping devices"/>
+  </tools>
+  <tools xsi:type="gmftool:ToolGroup"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      title="Security Pattern Tools" collapsible="true">
+    <tools xsi:type="gmftool:CreationTool" title="Security Policy"
+        description="Creates a SecurityPolicy (whitelist + blacklist)"/>
+    <tools xsi:type="gmftool:CreationTool" title="WhiteList"
+        description="Creates a WhiteList of trusted device IDs"/>
+    <tools xsi:type="gmftool:CreationTool" title="BlackList"
+        description="Creates a BlackList of untrusted device IDs"/>
+    <tools xsi:type="gmftool:CreationTool" title="Trusted Endpoint"
+        description="Creates a TrustedEndpoint"/>
+  </tools>
+  <tools xsi:type="gmftool:ToolGroup"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      title="Bootstrap Pattern Tools" collapsible="true">
+    <tools xsi:type="gmftool:CreationTool" title="Bootstrap Server"
+        description="Creates a Remote Bootstrap Server"/>
+    <tools xsi:type="gmftool:CreationTool" title="Bootstrap Config"
+        description="Creates a BootstrapConfig file for a device"/>
+  </tools>
+  <tools xsi:type="gmftool:ToolGroup"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      title="Connection Tools" collapsible="true">
+    <tools xsi:type="gmftool:CreationTool" title="Communication Link"
+        description="Creates a CommunicationLink between two devices"/>
+    <tools xsi:type="gmftool:CreationTool" title="Connector"
+        description="Creates a Connector between two Ports"/>
+  </tools>
+</gmftool:ToolRegistry>

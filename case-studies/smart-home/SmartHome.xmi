@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iotpatterns:IoTSystem xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:iotpatterns="http://www.example.org/iotpatterns"
+    name="SmartHomeSystem">
+
+  <!-- ============================================================
+       SECURITY POLICY
+       ============================================================ -->
+  <securityPolicy>
+    <whitelist deviceIds="TEMP_LIVING TEMP_BEDROOM TEMP_KITCHEN
+                          LIGHT_LIVING LIGHT_BEDROOM LOCK_FRONT"/>
+    <blacklist deviceIds=""/>
+    <trustedDevices href="#TEMP_LIVING"/>
+    <trustedDevices href="#TEMP_BEDROOM"/>
+    <trustedDevices href="#TEMP_KITCHEN"/>
+    <trustedDevices href="#LIGHT_LIVING"/>
+    <trustedDevices href="#LIGHT_BEDROOM"/>
+    <trustedDevices href="#LOCK_FRONT"/>
+  </securityPolicy>
+
+  <!-- ============================================================
+       SERVER (Home Automation Hub)
+       ============================================================ -->
+  <server name="HomeHub_Server">
+    <deviceRegister>
+      <virtualDevices lastState="Sleep"  futureState="Active"/>
+      <virtualDevices lastState="Active" futureState="Active"/>
+      <virtualDevices lastState="Sleep"  futureState="Active"/>
+    </deviceRegister>
+  </server>
+
+  <!-- ============================================================
+       GATEWAY (ZigBee -> WiFi/IP)
+       ============================================================ -->
+  <gateways name="ZigBee_WiFi_Gateway"
+            sourceProtocol="ZigBee"
+            targetProtocol="WiFi"/>
+
+  <!-- ============================================================
+       TEMPERATURE SENSORS — ZigBee, sleep mode
+       ============================================================ -->
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="TEMP_LIVING"
+      id="TEMP_LIVING" name="TempSensor_Living"
+      protocol="ZigBee" currentState="Sleep" previousState="Active"
+      isConnected="false" isDeployed="true" isTrusted="true" isOnline="false"
+      dataExchangeInProgress="false"
+      measurementType="Temperature" samplingRate="0.033">
+    <virtualDevice lastState="Sleep" futureState="Active"/>
+    <wakeUp channelId="CH_TEMP_LV" payload="WAKE_TEMP_LV"/>
+    <bootstrapConfig
+        configFile="bootstrap_temp_living.json"
+        trustedPartners="HomeHub_Server ZigBee_WiFi_Gateway"
+        networkParams="PAN_ID=0x2B3C CHANNEL=11"/>
+    <whiteList deviceIds="HomeHub_Server ZigBee_WiFi_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="TEMP_BEDROOM"
+      id="TEMP_BEDROOM" name="TempSensor_Bedroom"
+      protocol="ZigBee" currentState="Active" previousState="Sleep"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      measurementType="Temperature" samplingRate="0.033">
+    <virtualDevice lastState="Active" futureState="Active"/>
+    <wakeUp channelId="CH_TEMP_BD" payload="WAKE_TEMP_BD"/>
+    <bootstrapConfig
+        configFile="bootstrap_temp_bedroom.json"
+        trustedPartners="HomeHub_Server ZigBee_WiFi_Gateway"
+        networkParams="PAN_ID=0x2B3C CHANNEL=11"/>
+    <whiteList deviceIds="HomeHub_Server ZigBee_WiFi_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="TEMP_KITCHEN"
+      id="TEMP_KITCHEN" name="TempSensor_Kitchen"
+      protocol="ZigBee" currentState="Sleep" previousState="Active"
+      isConnected="false" isDeployed="true" isTrusted="true" isOnline="false"
+      dataExchangeInProgress="false"
+      measurementType="Temperature" samplingRate="0.033">
+    <virtualDevice lastState="Sleep" futureState="Active"/>
+    <wakeUp channelId="CH_TEMP_KT" payload="WAKE_TEMP_KT"/>
+    <bootstrapConfig
+        configFile="bootstrap_temp_kitchen.json"
+        trustedPartners="HomeHub_Server ZigBee_WiFi_Gateway"
+        networkParams="PAN_ID=0x2B3C CHANNEL=11"/>
+    <whiteList deviceIds="HomeHub_Server ZigBee_WiFi_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <!-- ============================================================
+       SMART LIGHTING ACTUATORS — WiFi/IP
+       ============================================================ -->
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="LIGHT_LIVING"
+      id="LIGHT_LIVING" name="SmartLight_Living"
+      protocol="WiFi" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="LightControl">
+    <bootstrapConfig
+        configFile="bootstrap_light_living.json"
+        trustedPartners="HomeHub_Server"
+        networkParams="IP=192.168.0.21 SSID=HomeNet"/>
+    <whiteList deviceIds="HomeHub_Server"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="LIGHT_BEDROOM"
+      id="LIGHT_BEDROOM" name="SmartLight_Bedroom"
+      protocol="WiFi" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="LightControl">
+    <bootstrapConfig
+        configFile="bootstrap_light_bedroom.json"
+        trustedPartners="HomeHub_Server"
+        networkParams="IP=192.168.0.22 SSID=HomeNet"/>
+    <whiteList deviceIds="HomeHub_Server"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <!-- ============================================================
+       DOOR LOCK CONTROLLER — IP
+       ============================================================ -->
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="LOCK_FRONT"
+      id="LOCK_FRONT" name="DoorLock_FrontDoor"
+      protocol="IP" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="LockControl">
+    <bootstrapConfig
+        configFile="bootstrap_lock_front.json"
+        trustedPartners="HomeHub_Server"
+        networkParams="IP=192.168.0.30"/>
+    <whiteList deviceIds="HomeHub_Server"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <!-- ============================================================
+       COMMUNICATION LINKS
+       ============================================================ -->
+  <links isActive="false" source="#TEMP_LIVING"  target="#LIGHT_LIVING"  gateway="#ZigBee_WiFi_Gateway"/>
+  <links isActive="true"  source="#TEMP_BEDROOM" target="#LIGHT_BEDROOM" gateway="#ZigBee_WiFi_Gateway"/>
+  <links isActive="false" source="#TEMP_KITCHEN" target="#LOCK_FRONT"    gateway="#ZigBee_WiFi_Gateway"/>
+
+</iotpatterns:IoTSystem>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iotpatterns:IoTSystem xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:iotpatterns="http://www.example.org/iotpatterns"
+    name="SmartIrrigationSystem">
+
+  <!-- ============================================================
+       SECURITY POLICY (global)
+       ============================================================ -->
+  <securityPolicy>
+    <whitelist deviceIds="SENSOR_Z1 SENSOR_Z2 SENSOR_Z3 SENSOR_Z4
+                          VALVE_Z1 VALVE_Z2 VALVE_Z3 VALVE_Z4"/>
+    <blacklist deviceIds=""/>
+    <trustedDevices href="#SENSOR_Z1"/>
+    <trustedDevices href="#SENSOR_Z2"/>
+    <trustedDevices href="#SENSOR_Z3"/>
+    <trustedDevices href="#SENSOR_Z4"/>
+    <trustedDevices href="#VALVE_Z1"/>
+    <trustedDevices href="#VALVE_Z2"/>
+    <trustedDevices href="#VALVE_Z3"/>
+    <trustedDevices href="#VALVE_Z4"/>
+  </securityPolicy>
+
+  <!-- ============================================================
+       SERVER (irrigation controller)
+       ============================================================ -->
+  <server name="IrrigationController">
+    <deviceRegister>
+      <virtualDevices lastState="Active" futureState="Active"/>
+      <virtualDevices lastState="Sleep"  futureState="Active"/>
+      <virtualDevices lastState="Sleep"  futureState="Active"/>
+      <virtualDevices lastState="Active" futureState="Active"/>
+    </deviceRegister>
+  </server>
+
+  <!-- ============================================================
+       GATEWAY (ZigBee -> IP)
+       ============================================================ -->
+  <gateways name="ZigBee_IP_Gateway"
+            sourceProtocol="ZigBee"
+            targetProtocol="IP"/>
+
+  <!-- ============================================================
+       SENSORS (Zone 1-4) — ZigBee, sleep mode
+       ============================================================ -->
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="SENSOR_Z1"
+      id="SENSOR_Z1" name="SoilSensor_Zone1"
+      protocol="ZigBee" currentState="Sleep" previousState="Active"
+      isConnected="false" isDeployed="true" isTrusted="true" isOnline="false"
+      dataExchangeInProgress="false"
+      measurementType="SoilMoisture" samplingRate="0.016">
+    <virtualDevice lastState="Sleep" futureState="Active"/>
+    <wakeUp channelId="CH_Z1" payload="WAKE_SZ1"/>
+    <bootstrapConfig
+        configFile="bootstrap_sensor_z1.json"
+        trustedPartners="IrrigationController ZigBee_IP_Gateway"
+        networkParams="PAN_ID=0x1A2B CHANNEL=15"/>
+    <whiteList deviceIds="IrrigationController ZigBee_IP_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="SENSOR_Z2"
+      id="SENSOR_Z2" name="SoilSensor_Zone2"
+      protocol="ZigBee" currentState="Sleep" previousState="Active"
+      isConnected="false" isDeployed="true" isTrusted="true" isOnline="false"
+      dataExchangeInProgress="false"
+      measurementType="SoilMoisture" samplingRate="0.016">
+    <virtualDevice lastState="Sleep" futureState="Active"/>
+    <wakeUp channelId="CH_Z2" payload="WAKE_SZ2"/>
+    <bootstrapConfig
+        configFile="bootstrap_sensor_z2.json"
+        trustedPartners="IrrigationController ZigBee_IP_Gateway"
+        networkParams="PAN_ID=0x1A2B CHANNEL=15"/>
+    <whiteList deviceIds="IrrigationController ZigBee_IP_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="SENSOR_Z3"
+      id="SENSOR_Z3" name="SoilSensor_Zone3"
+      protocol="ZigBee" currentState="Active" previousState="Sleep"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      measurementType="SoilMoisture" samplingRate="0.016">
+    <virtualDevice lastState="Active" futureState="Active"/>
+    <wakeUp channelId="CH_Z3" payload="WAKE_SZ3"/>
+    <bootstrapConfig
+        configFile="bootstrap_sensor_z3.json"
+        trustedPartners="IrrigationController ZigBee_IP_Gateway"
+        networkParams="PAN_ID=0x1A2B CHANNEL=15"/>
+    <whiteList deviceIds="IrrigationController ZigBee_IP_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Sensor"
+      xmi:id="SENSOR_Z4"
+      id="SENSOR_Z4" name="SoilSensor_Zone4"
+      protocol="ZigBee" currentState="Sleep" previousState="Active"
+      isConnected="false" isDeployed="true" isTrusted="true" isOnline="false"
+      dataExchangeInProgress="false"
+      measurementType="SoilMoisture" samplingRate="0.016">
+    <virtualDevice lastState="Sleep" futureState="Active"/>
+    <wakeUp channelId="CH_Z4" payload="WAKE_SZ4"/>
+    <bootstrapConfig
+        configFile="bootstrap_sensor_z4.json"
+        trustedPartners="IrrigationController ZigBee_IP_Gateway"
+        networkParams="PAN_ID=0x1A2B CHANNEL=15"/>
+    <whiteList deviceIds="IrrigationController ZigBee_IP_Gateway"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <!-- ============================================================
+       ELECTROVALVES (Zone 1-4) — IP
+       ============================================================ -->
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="VALVE_Z1"
+      id="VALVE_Z1" name="Electrovalve_Zone1"
+      protocol="IP" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="WaterFlow">
+    <bootstrapConfig
+        configFile="bootstrap_valve_z1.json"
+        trustedPartners="IrrigationController"
+        networkParams="IP=192.168.1.11"/>
+    <whiteList deviceIds="IrrigationController"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="VALVE_Z2"
+      id="VALVE_Z2" name="Electrovalve_Zone2"
+      protocol="IP" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="WaterFlow">
+    <bootstrapConfig
+        configFile="bootstrap_valve_z2.json"
+        trustedPartners="IrrigationController"
+        networkParams="IP=192.168.1.12"/>
+    <whiteList deviceIds="IrrigationController"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="VALVE_Z3"
+      id="VALVE_Z3" name="Electrovalve_Zone3"
+      protocol="IP" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="WaterFlow">
+    <bootstrapConfig
+        configFile="bootstrap_valve_z3.json"
+        trustedPartners="IrrigationController"
+        networkParams="IP=192.168.1.13"/>
+    <whiteList deviceIds="IrrigationController"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <devices xsi:type="iotpatterns:Actuator"
+      xmi:id="VALVE_Z4"
+      id="VALVE_Z4" name="Electrovalve_Zone4"
+      protocol="IP" currentState="Active"
+      isConnected="true" isDeployed="true" isTrusted="true" isOnline="true"
+      dataExchangeInProgress="false"
+      actionType="WaterFlow">
+    <bootstrapConfig
+        configFile="bootstrap_valve_z4.json"
+        trustedPartners="IrrigationController"
+        networkParams="IP=192.168.1.14"/>
+    <whiteList deviceIds="IrrigationController"/>
+    <blackList deviceIds=""/>
+  </devices>
+
+  <!-- ============================================================
+       COMMUNICATION LINKS (all via gateway for ZigBee devices)
+       ============================================================ -->
+  <links isActive="true"  source="#SENSOR_Z1" target="#VALVE_Z1"  gateway="#ZigBee_IP_Gateway"/>
+  <links isActive="true"  source="#SENSOR_Z2" target="#VALVE_Z2"  gateway="#ZigBee_IP_Gateway"/>
+  <links isActive="false" source="#SENSOR_Z3" target="#VALVE_Z3"  gateway="#ZigBee_IP_Gateway"/>
+  <links isActive="true"  source="#SENSOR_Z4" target="#VALVE_Z4"  gateway="#ZigBee_IP_Gateway"/>
+
+</iotpatterns:IoTSystem>

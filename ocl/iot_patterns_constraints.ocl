@@ -1,0 +1,131 @@
+-- ============================================================
+-- OCL Constraints for IoT Design Patterns
+-- Total: 14 constraints (11 invariants + 3 composition)
+-- Package: iotpatterns
+-- ============================================================
+
+package iotpatterns
+
+-- ------------------------------------------------------------
+-- COMPOSITION CONSTRAINTS (C1-C3)
+-- ------------------------------------------------------------
+
+-- C1: Active communication links require both endpoints whitelisted
+context CommunicationLink
+inv TrustedCommRequired:
+  self.isActive = true implies
+    self.source.securityPolicy.whitelist.deviceIds->includes(self.source.id)
+    and
+    self.target.securityPolicy.whitelist.deviceIds->includes(self.target.id)
+
+-- C2: Unconfigured devices are automatically blacklisted
+context Device
+inv UnconfiguredImpliesBlacklisted:
+  self.bootstrapConfig->isEmpty()
+  implies
+    self.securityPolicy.blacklist.deviceIds->includes(self.id)
+    and
+    self.securityPolicy.whitelist.deviceIds->excludes(self.id)
+
+-- C3: Configured devices are automatically whitelisted
+context Device
+inv ConfiguredImpliesWhitelisted:
+  self.bootstrapConfig->notEmpty()
+  implies
+    self.securityPolicy.whitelist.deviceIds->includes(self.id)
+    and
+    self.securityPolicy.blacklist.deviceIds->excludes(self.id)
+
+-- ------------------------------------------------------------
+-- DEVICE SHADOW PATTERN (Inv1-Inv3)
+-- ------------------------------------------------------------
+
+-- Inv1: Each device is associated with exactly one virtual device
+context Device
+inv UniqueShadowAssociation:
+  self.virtualDevice->size() = 1
+
+-- Inv2: When synchronized, last and future states must match
+context Device
+inv ShadowConsistency:
+  self.currentState = DeviceState::Synchronized
+  implies
+    self.virtualDevice.lastState = self.virtualDevice.futureState
+
+-- Inv3: A device can only be synchronized when connected
+context Device
+inv ConnectivityRequired:
+  self.currentState = DeviceState::Synchronized
+  implies self.isConnected = true
+
+-- ------------------------------------------------------------
+-- DEVICE GATEWAY PATTERN (Inv4)
+-- ------------------------------------------------------------
+
+-- Inv4: Devices using different protocols must communicate through a gateway
+context CommunicationLink
+inv MustUseGateway:
+  self.source.protocol <> self.target.protocol
+  implies self.gateway->notEmpty()
+
+-- ------------------------------------------------------------
+-- DEVICE WAKE-UP TRIGGER PATTERN (Inv5-Inv6)
+-- ------------------------------------------------------------
+
+-- Inv5: A sleeping device cannot maintain active communication channels
+context Device
+inv NoCommunicationDuringSleep:
+  self.currentState = DeviceState::Sleep
+  implies self.idChannel->isEmpty()
+
+-- Inv6: Sleep-to-active transition requires a valid wake-up event
+context Device
+inv ValidWakeUpTransition:
+  self.previousState = DeviceState::Sleep
+  and self.currentState = DeviceState::Active
+  implies self.wakeUp->notEmpty()
+
+-- ------------------------------------------------------------
+-- TRUSTED COMMUNICATION PATTERN (Inv7-Inv9)
+-- ------------------------------------------------------------
+
+-- Inv7: Devices may communicate only with whitelisted devices
+context Device
+inv TrustedOnly:
+  self.connectedDevices->forAll(d |
+    self.whiteList.devices->includes(d))
+
+-- Inv8: A trusted endpoint must have a whitelist
+context TrustedEndpoint
+inv WhiteListRequired:
+  self.whiteList->notEmpty()
+
+-- Inv9: Data exchange requires authenticated (trusted) device
+context Device
+inv MutualAuthRequired:
+  self.dataExchangeInProgress = true
+  implies self.isTrusted = true
+
+-- ------------------------------------------------------------
+-- REMOTE BOOTSTRAP PATTERN (Inv10)
+-- ------------------------------------------------------------
+
+-- Inv10: A deployed device must have a bootstrap configuration
+context Device
+inv HasBootstrapConfig:
+  self.isDeployed = true
+  implies self.bootstrapServer->notEmpty()
+
+-- ------------------------------------------------------------
+-- GLOBAL VALIDATION (Inv11)
+-- ------------------------------------------------------------
+
+-- Inv11: Communication requests accepted only if device is
+--        trusted AND (online OR wake-up triggered)
+context Server
+inv SecureAndAvailableCommunication:
+  self.requestedDevices->forAll(d |
+    d.isTrusted = true
+    and (d.isOnline = true or d.wakeUp->notEmpty()))
+
+endpackage

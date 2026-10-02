@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    name="iotpatterns"
+    nsURI="http://www.example.org/iotpatterns"
+    nsPrefix="iotpatterns">
+
+  <!-- ROOT -->
+  <eClassifiers xsi:type="ecore:EClass" name="IoTSystem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1" eType="#//Device" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="server" eType="#//Server" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gateways" upperBound="-1" eType="#//Gateway" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1" eType="#//CommunicationLink" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securityPolicy" eType="#//SecurityPolicy" containment="true"/>
+  </eClassifiers>
+
+  <!-- DEVICE -->
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="protocol" eType="#//ProtocolKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentState" eType="#//DeviceState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="previousState" eType="#//DeviceState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isConnected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDeployed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrusted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOnline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataExchangeInProgress" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="virtualDevice" upperBound="1" eType="#//VirtualDevice" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="wakeUp" upperBound="-1" eType="#//WakeUpTrigger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idChannel" upperBound="-1" eType="#//IdChannel" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whiteList" eType="#//WhiteList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blackList" eType="#//BlackList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectedDevices" upperBound="-1" eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bootstrapServer" upperBound="1" eType="#//BootstrapServer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bootstrapConfig" upperBound="1" eType="#//BootstrapConfig" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="securityPolicy" eType="#//SecurityPolicy"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="measurementType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samplingRate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="Actuator" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="actionType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <!-- SERVER -->
+  <eClassifiers xsi:type="ecore:EClass" name="Server">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deviceRegister" eType="#//DeviceRegister" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requestedDevices" upperBound="-1" eType="#//Device"/>
+  </eClassifiers>
+
+  <!-- GATEWAY -->
+  <eClassifiers xsi:type="ecore:EClass" name="Gateway">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceProtocol" eType="#//ProtocolKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetProtocol" eType="#//ProtocolKind"/>
+  </eClassifiers>
+
+  <!-- COMMUNICATION LINK -->
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationLink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gateway" upperBound="1" eType="#//Gateway"/>
+  </eClassifiers>
+
+  <!-- DEVICE SHADOW -->
+  <eClassifiers xsi:type="ecore:EClass" name="VirtualDevice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastState" eType="#//DeviceState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="futureState" eType="#//DeviceState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" eType="#//Device"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="DeviceRegister">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="virtualDevices" upperBound="-1" eType="#//VirtualDevice" containment="true"/>
+  </eClassifiers>
+
+  <!-- WAKE-UP TRIGGER -->
+  <eClassifiers xsi:type="ecore:EClass" name="WakeUpTrigger">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channelId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="payload" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="IdChannel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="channelId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <!-- TRUSTED COMMUNICATION -->
+  <eClassifiers xsi:type="ecore:EClass" name="TrustedEndpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endpointId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whiteList" eType="#//WhiteList"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="WhiteList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1" eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deviceIds" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="BlackList">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deviceIds" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="SecurityPolicy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="whitelist" eType="#//WhiteList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="blacklist" eType="#//BlackList" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trustedDevices" upperBound="-1" eType="#//Device"/>
+  </eClassifiers>
+
+  <!-- REMOTE BOOTSTRAP -->
+  <eClassifiers xsi:type="ecore:EClass" name="BootstrapServer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serverUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="BootstrapConfig">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="configFile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trustedPartners" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="networkParams" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <!-- CONNECTION META-MODEL -->
+  <eClassifiers xsi:type="ecore:EClass" name="Port">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="portId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="provided" upperBound="-1" eType="#//ProvidedInterface" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="required" upperBound="-1" eType="#//RequiredInterface" containment="true"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="ProvidedInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="RequiredInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EClass" name="Connector">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Port"/>
+  </eClassifiers>
+
+  <!-- ENUMERATIONS -->
+  <eClassifiers xsi:type="ecore:EEnum" name="DeviceState">
+    <eLiterals name="Active" value="0"/>
+    <eLiterals name="Sleep" value="1"/>
+    <eLiterals name="Synchronized" value="2"/>
+    <eLiterals name="Offline" value="3"/>
+    <eLiterals name="Bootstrapping" value="4"/>
+  </eClassifiers>
+
+  <eClassifiers xsi:type="ecore:EEnum" name="ProtocolKind">
+    <eLiterals name="ZigBee" value="0"/>
+    <eLiterals name="WiFi" value="1"/>
+    <eLiterals name="IP" value="2"/>
+    <eLiterals name="MQTT" value="3"/>
+    <eLiterals name="CoAP" value="4"/>
+    <eLiterals name="LWM2M" value="5"/>
+  </eClassifiers>
+
+</ecore:EPackage>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfmap:Mapping xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:gmfmap="http://www.eclipse.org/gmf/2008/mappings"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition"
+    xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition">
+
+  <diagram>
+    <domainMetaElement href="iot_patterns.ecore#//IoTSystem"/>
+    <diagramCanvas href="iot_patterns.gmfgraph#iotpatterns"/>
+
+    <!-- DEVICE node mapping -->
+    <nodes>
+      <ownedChild>
+        <domainMetaElement href="iot_patterns.ecore#//Device"/>
+        <diagramNode href="iot_patterns.gmfgraph#DeviceNode"/>
+        <tool href="iot_patterns.gmftool#//@tools.0/@tools.1"/>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#DeviceName"/>
+          <features href="iot_patterns.ecore#//Device/name"/>
+        </labelMappings>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#DeviceId"/>
+          <features href="iot_patterns.ecore#//Device/id"/>
+        </labelMappings>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#DeviceState"/>
+          <features href="iot_patterns.ecore#//Device/currentState"/>
+        </labelMappings>
+        <!-- CompartmentMapping: DeviceShadow, WakeUpTrigger, BootstrapConfig -->
+        <compartments>
+          <compartment href="iot_patterns.ecore#//Device/virtualDevice"/>
+          <compartment href="iot_patterns.ecore#//Device/wakeUp"/>
+          <compartment href="iot_patterns.ecore#//Device/bootstrapConfig"/>
+          <compartment href="iot_patterns.ecore#//Device/whiteList"/>
+          <compartment href="iot_patterns.ecore#//Device/blackList"/>
+        </compartments>
+      </ownedChild>
+    </nodes>
+
+    <!-- SERVER node mapping -->
+    <nodes>
+      <ownedChild>
+        <domainMetaElement href="iot_patterns.ecore#//Server"/>
+        <diagramNode href="iot_patterns.gmfgraph#ServerNode"/>
+        <tool href="iot_patterns.gmftool#//@tools.0/@tools.4"/>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#ServerName"/>
+          <features href="iot_patterns.ecore#//Server/name"/>
+        </labelMappings>
+        <compartments>
+          <compartment href="iot_patterns.ecore#//Server/deviceRegister"/>
+        </compartments>
+      </ownedChild>
+    </nodes>
+
+    <!-- GATEWAY node mapping -->
+    <nodes>
+      <ownedChild>
+        <domainMetaElement href="iot_patterns.ecore#//Gateway"/>
+        <diagramNode href="iot_patterns.gmfgraph#GatewayNode"/>
+        <tool href="iot_patterns.gmftool#//@tools.0/@tools.5"/>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#GatewayName"/>
+          <features href="iot_patterns.ecore#//Gateway/name"/>
+        </labelMappings>
+        <labelMappings>
+          <diagramLabel href="iot_patterns.gmfgraph#GatewayProto"/>
+          <features href="iot_patterns.ecore#//Gateway/sourceProtocol"/>
+        </labelMappings>
+      </ownedChild>
+    </nodes>
+
+    <!-- SECURITY POLICY node mapping -->
+    <nodes>
+      <ownedChild>
+        <domainMetaElement href="iot_patterns.ecore#//SecurityPolicy"/>
+        <diagramNode href="iot_patterns.gmfgraph#SecurityPolicyNode"/>
+        <tool href="iot_patterns.gmftool#//@tools.1/@tools.0"/>
+        <compartments>
+          <compartment href="iot_patterns.ecore#//SecurityPolicy/whitelist"/>
+          <compartment href="iot_patterns.ecore#//SecurityPolicy/blacklist"/>
+        </compartments>
+      </ownedChild>
+    </nodes>
+
+    <!-- COMMUNICATION LINK connection mapping -->
+    <links>
+      <domainMetaElement href="iot_patterns.ecore#//CommunicationLink"/>
+      <diagramLink href="iot_patterns.gmfgraph#CommunicationLinkConn"/>
+      <tool href="iot_patterns.gmftool#//@tools.3/@tools.0"/>
+      <sourceMetaFeature href="iot_patterns.ecore#//CommunicationLink/source"/>
+      <linkMetaFeature href="iot_patterns.ecore#//CommunicationLink/target"/>
+    </links>
+
+  </diagram>
+</gmfmap:Mapping>

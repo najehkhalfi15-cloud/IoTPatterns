@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/iot.patterns.model/src"
+    editDirectory="/iot.patterns.edit/src"
+    editorDirectory="/iot.patterns.editor/src"
+    modelPluginID="iot.patterns.model"
+    modelName="IotPatterns"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true"
+    testsDirectory="/iot.patterns.tests/src"
+    importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0"
+    copyrightFields="false"
+    operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>iot_patterns.ecore</foreignModel>
+  <genPackages prefix="Iotpatterns"
+      basePackage="org.example"
+      resource="XMI"
+      disposableProviderFactory="true"
+      ecorePackage="iot_patterns.ecore#/">
+    <genClasses ecoreClass="iot_patterns.ecore#//IoTSystem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//IoTSystem/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//IoTSystem/devices"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//IoTSystem/server"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//IoTSystem/gateways"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//IoTSystem/links"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//IoTSystem/securityPolicy"/>
+    </genClasses>
+    <genClasses ecoreClass="iot_patterns.ecore#//Device">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/protocol"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/currentState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/previousState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/isConnected"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/isDeployed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/isTrusted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/isOnline"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Device/dataExchangeInProgress"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/virtualDevice"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/wakeUp"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/idChannel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/whiteList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/blackList"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/connectedDevices"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/bootstrapServer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/bootstrapConfig"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//Device/securityPolicy"/>
+    </genClasses>
+    <genClasses ecoreClass="iot_patterns.ecore#//Server">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Server/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference iot_patterns.ecore#//Server/deviceRegister"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//Server/requestedDevices"/>
+    </genClasses>
+    <genClasses ecoreClass="iot_patterns.ecore#//Gateway">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Gateway/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Gateway/sourceProtocol"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//Gateway/targetProtocol"/>
+    </genClasses>
+    <genClasses ecoreClass="iot_patterns.ecore#//CommunicationLink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute iot_patterns.ecore#//CommunicationLink/isActive"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//CommunicationLink/source"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//CommunicationLink/target"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference iot_patterns.ecore#//CommunicationLink/gateway"/>
+    </genClasses>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="iot_patterns.ecore#//DeviceState">
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//DeviceState/Active"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//DeviceState/Sleep"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//DeviceState/Synchronized"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//DeviceState/Offline"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//DeviceState/Bootstrapping"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="iot_patterns.ecore#//ProtocolKind">
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/ZigBee"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/WiFi"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/IP"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/MQTT"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/CoAP"/>
+      <genEnumLiterals ecoreEnumLiteral="iot_patterns.ecore#//ProtocolKind/LWM2M"/>
+    </genEnums>
+  </genPackages>
+</genmodel:GenModel>
